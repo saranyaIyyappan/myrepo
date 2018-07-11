@@ -1,0 +1,20 @@
+ @RequestMapping(value = "/logOut", method = RequestMethod.GET)
+	 public String logOut(HttpServletRequest request) {
+	  HttpSession session = request.getSession();
+
+	  String ipAddress = request.getHeader("X-FORWARDED-FOR");
+	  if (StringUtils.isEmpty(ipAddress)) {
+		  System.out.println(ipAddress + " ipAddress is empty");
+	   ipAddress = request.getRemoteAddr();
+	  }
+	  try {
+	   String userId = (String) session.getAttribute("userId");
+	   System.out.println(userId + "Logged Out Successfully");
+	  } catch (Exception e) {
+		  System.out.println("Exception logOut() in UserController "+ e.getMessage());
+	  }
+	  session.removeAttribute("UserContext");
+	  session.invalidate();
+	  System.out.println("Return from logOut() in UserController to login");
+	  return "login";
+	 }
